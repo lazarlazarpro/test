@@ -67,6 +67,10 @@ func getPackSizes(numberOfItems int) *map[int]int {
 }
 
 func packHandler(w http.ResponseWriter, r *http.Request) {
+	// handle CORS
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+
 	itemsStr := r.URL.Query().Get("items")
 	items, err := strconv.Atoi(itemsStr)
 	if err != nil {
