@@ -1,22 +1,13 @@
-package main
+package pack
 
 import (
-	"log"
 	"reflect"
-	"sort"
 	"testing"
 )
 
-func setup() {
-	err := LoadConfig("../config.json")
-	if err != nil {
-		log.Fatalf("Failed to load configuration: %s", err)
-	}
-	sort.Sort(sort.Reverse(sort.IntSlice(config.PackSizes)))
-}
-
 func TestGetPackSizes(t *testing.T) {
-	setup()
+
+	packSizes := []int{250, 500, 1000, 2000, 5000}
 
 	tests := []struct {
 		input  int
@@ -57,8 +48,9 @@ func TestGetPackSizes(t *testing.T) {
 		},
 	}
 
+	p := NewPacker(packSizes)
 	for _, test := range tests {
-		result := getPackSizes(test.input)
+		result := p.GetPackSizes(test.input)
 		if !reflect.DeepEqual(*result, test.output) {
 			t.Errorf("For input %d, expected %+v, but got %+v", test.input, test.output, *result)
 		}
